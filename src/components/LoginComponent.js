@@ -26,7 +26,7 @@ export class LoginComponent extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state.cardNumber, this.state.pinNumber);
+    this.props.onCardSubmit(this.state.cardNumber, this.state.pinNumber);
   }
 
   render() {
