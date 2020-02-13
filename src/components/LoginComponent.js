@@ -53,7 +53,7 @@ export class LoginComponent extends Component {
                   <h4 className="mb-0 pb-0">Pin:&nbsp;</h4>
                 </label>
                 <input
-                  type="number"
+                  type="password"
                   name="pinNumber"
                   className="form-control"
                   placeholder="Enter the pin"

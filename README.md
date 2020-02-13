@@ -1,3 +1,22 @@
+Working login combinations are:
+
+card Number: 1234567890123456
+pin:1234
+
+card Number: 2345678901234567
+pin:2345
+
+card Number: 1111222233334444
+pin:3456
+
+card Number: 1111111122222222
+pin:1111
+
+card Number: 1111111111111111
+pin:2222
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

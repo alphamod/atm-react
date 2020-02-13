@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export class Withdraw extends Component {
   constructor(props) {
@@ -41,6 +42,9 @@ export class Withdraw extends Component {
             className="btn btn-warning mt-1"
           />
         </form>
+        <div className="card-footer">
+          <Link className="btn btn-warning" to="/" >Home</Link>
+        </div>
       </div>
     );
   }

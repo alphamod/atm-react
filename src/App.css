@@ -1,13 +1,32 @@
-body{
-  background-color: #5BC0DE;
+body {
+  background-color: #5bc0de;
   color: white;
 }
-.loginCard{
+.loginCard {
   margin-top: 20%;
 }
-.UiList>li>a>h2{
+.UiList > li > a > h2 {
   color: white !important;
 }
-.UiList>li>a>h2:hover{
+.UiList > li > a > h2:hover {
   color: blue !important;
+}
+
+.uiCards {
+  height: 15rem;
+  width: 20rem;
+  margin: 2rem auto auto auto;
+  text-align: center;
+}
+
+.uiCards:hover {
+  background-color: lightgreen;
+  color: white !important;
+}
+
+.link-text {
+  margin: 4rem auto !important;
+}
+.uiCards:hover .link-text{
+  color: white;
 }
