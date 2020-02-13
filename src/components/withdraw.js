@@ -43,7 +43,7 @@ export class Withdraw extends Component {
           />
         </form>
         <div className="card-footer">
-          <Link className="btn btn-warning" to="/" >Home</Link>
+          <Link className="btn btn-warning ml-auto " to="/" >Home</Link>
         </div>
       </div>
     );

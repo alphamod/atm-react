@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLogged: "Logged"
+      isLogged: "notLogged"
     }
     this.cardLogin = this.cardLogin.bind(this);
   }
