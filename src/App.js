@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import './App.css';
 import LoginComponent from './components/LoginComponent';
 import UiComponent from './components/UiComponent';
@@ -9,6 +10,7 @@ import Deposit from './components/Deposit';
 import CheckBalance from './components/CheckBalance';
 import NavBar from './components/NavBar';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -17,47 +19,62 @@ class App extends React.Component {
       userName: "",
       cardNumber: "",
       balance: "",
+      withdrawAmount: "",
+      withdrawError:""
     }
     this.cardLogin = this.cardLogin.bind(this);
   }
+  // login method
   cardLogin(cardNumber, pinNumber) {
-    // console.log(cardNumber, pinNumber)
-    // fetch api to validate card
-    fetch("http://localhost:4000/validate", {
-      method: "POST",
-      headers: {
-        "accept" : "application/json",
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ cardNumber, pinNumber })
-    })
+    // axios api to validate card
+    axios.post('http://localhost:4000/validate', { cardNumber, pinNumber })
       .then(response => {
-        // console.log(response);
         if (response.statusText === "OK") {
           this.setState({
-            isLogged: "Logged"
+            isLogged: "Logged",
+            userName: response.data.accHolder,
+            cardNumber: response.data.cardNumber,
+            balance: response.data.accBalance,
           });
-          // alert("logged in");
+          console.log(response.data);
         }
-        return (response.json())
-        
-      })
-      .then(data => {
-        this.setState({
-          userName: data.accHolder,
-          cardNumber: data.cardNumber,
-          balance: data.accBalance
-        })
-        return (console.log(data))
+      }, error => {
+          console.log(`error inside validate then`);
+          console.log(error);
       })
       .catch(err => {
-        console.log(err)
+        console.log(`error inside validate catch`)
+        console.log(err);
       })
   }
-
+// logout method
   onLogout = (stateArg) => {
-    this.setState({isLogged:stateArg})
+    this.setState({ isLogged: stateArg });
   }
+// withdraw method
+  onWithdraw = (withdrawArg) => {
+    this.setState({
+      withdrawAmount: withdrawArg
+    });
+    alert(this.state.withdrawAmount)
+    axios.post('http://localhost:4000/withdraw', { withdrawAmount: withdrawArg, cardNumber: this.state.cardNumber })
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(`error inside withdraw catch`);
+        console.log(error);
+        if (error.response) {
+          console.log(error.response.statusText);
+          this.setState({
+            withdrawError: error.response.statusText
+          });
+        }
+      
+      });
+  }
+
   render() {
     if (this.state.isLogged === "notLogged") {
       return (
@@ -74,16 +91,16 @@ class App extends React.Component {
 
         <div className="container-fluid">
           <BrowserRouter>
-            <NavBar onLogout={this.onLogout} userName={this.state.userName}/>
+            <NavBar onLogout={this.onLogout} userName={this.state.userName} />
             <div className="container">
-            <Switch>
-              <Route path="/" exact component={UiComponent} />
-              <Route path="/withdraw" component={Withdraw} />
-              <Route path="/deposit" component={Deposit} />
-              <Route path="/checkBalance" component={CheckBalance} />
-              <Route path="/changePin" component={ChangePin}/>
+              <Switch>
+                <Route path="/" exact component={UiComponent} />
+                <Route path="/withdraw" render={() => (<Withdraw onWithdraw={this.onWithdraw} withdrawError={this.state.withdrawError} />)} />
+                <Route path="/deposit" component={Deposit} />
+                <Route path="/checkBalance" component={CheckBalance} />
+                <Route path="/changePin" component={ChangePin} />
               </Switch>
-              </div>
+            </div>
           </BrowserRouter>
         </div>
       )

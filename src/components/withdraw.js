@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 export class Withdraw extends Component {
   constructor(props) {
@@ -18,12 +17,13 @@ export class Withdraw extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state.withdrawAmount);
+    this.props.onWithdraw(this.state.withdrawAmount);
   }
 
   render() {
     return (
       <div className="card mt-3 bg-info">
+        <h3 className="text-danger text-center">{this.props.withdrawError}</h3>
         <form onSubmit={this.onSubmit}>
           <div>
             <label>
@@ -42,10 +42,7 @@ export class Withdraw extends Component {
             className="btn btn-warning mt-1"
           />
         </form>
-        <div className="card-footer">
-          <Link className="btn btn-warning ml-auto " to="/" >Home</Link>
         </div>
-      </div>
     );
   }
 }
