@@ -1,3 +1,5 @@
+Use the mongodump files from directory 'mongoDB/dump' and use the below combinations.
+
 Working login combinations are:
 
 card Number: 1234567890123456
