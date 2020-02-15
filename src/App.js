@@ -18,13 +18,14 @@ class App extends React.Component {
       isLogged: "notLogged",
       userName: "",
       cardNumber: "",
-      balance: "",
       withdrawError: "",
-      depositMsg:"",
+      depositMsg: "",
+      withdrawMsg: "",
+      pinMsg: ""
     }
   }
   // login method
-  cardLogin = (cardNumber, pinNumber)=> {
+  cardLogin = (cardNumber, pinNumber) => {
     // axios api to validate card
     axios.post('http://localhost:4000/validate', { cardNumber, pinNumber })
       .then(response => {
@@ -38,27 +39,29 @@ class App extends React.Component {
           console.log(response.data);
         }
       }, error => {
-          console.log(`error inside validate then`);
-          console.log(error);
+        console.log(`error inside validate then`);
+        console.log(error);
       })
       .catch(err => {
         console.log(`error inside validate catch`)
         console.log(err);
       })
   }
-// logout method
+  // logout method
   onLogout = (stateArg) => {
     this.setState({ isLogged: stateArg });
   }
-// withdraw method
+  // withdraw method
   onWithdraw = (withdrawArg) => {
     axios.post('http://localhost:4000/withdraw', { withdrawAmount: withdrawArg, cardNumber: this.state.cardNumber })
       .then(response => {
         console.log(response);
         console.log(response.data);
-        if (response.statusText == "Balance updated") {
-          alert("success");
-          window.location.href = '/';
+        if (response.status == 200) {
+          this.setState({
+            withdrawMsg: `Withdrawed!! \nNew balance is $${response.statusText}`,
+            withdrawError: ""
+          })
         }
       })
       .catch(error => {
@@ -67,16 +70,42 @@ class App extends React.Component {
         if (error.response) {
           console.log(error.response.statusText);
           this.setState({
-            withdrawError: error.response.statusText
+            withdrawError: error.response.statusText,
+            withdrawMsg: ""
           });
         }
-      
+
       });
   }
 
-// Deposit method
+  // Deposit method
   onDeposit = (depositArg) => {
-    
+    axios.post('http://localhost:4000/deposit', { cardNumber: this.state.cardNumber, depositAmount: depositArg })
+      .then(response => {
+        console.log(response);
+        this.setState({
+          depositMsg: `Deposit Sucess!!  \nNew Balance: $${response.statusText}`
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  // Pin Change Method
+  onPinSubmit = (oldpinArg, newPinArg) => {
+    axios.post('http://localhost:4000/changePin', { cardNumber: this.state.cardNumber, oldPin: oldpinArg, newPin: newPinArg })
+      .then(response => {
+        console.log(response);
+        if (response.status == 200) {
+          this.setState({
+            pinMsg: response.statusText
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err);
+    })
   }
 
   render() {
@@ -98,10 +127,10 @@ class App extends React.Component {
             <div className="container">
               <Switch>
                 <Route path="/" exact component={UiComponent} />
-                <Route path="/withdraw" render={() => (<Withdraw onWithdraw={this.onWithdraw} withdrawError={this.state.withdrawError} />)} />
+                <Route path="/withdraw" render={() => (<Withdraw onWithdraw={this.onWithdraw} withdrawMsg={this.state.withdrawMsg} withdrawError={this.state.withdrawError} />)} />
                 <Route path="/deposit" render={() => (<Deposit onDeposit={this.onDeposit} depositMsg={this.state.depositMsg} />)} />
-                <Route path="/checkBalance" component={CheckBalance} />
-                <Route path="/changePin" component={ChangePin} />
+                <Route path="/checkBalance" render={() => (<CheckBalance cardNumber={this.state.cardNumber} />)} />
+                <Route path="/changePin" render={() => (<ChangePin pinMsg={this.state.pinMsg} onPinSubmit= {this.onPinSubmit} />)} />
               </Switch>
             </div>
           </BrowserRouter>

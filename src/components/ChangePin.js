@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 
 export class ChangePin extends Component {
   constructor(props) {
@@ -15,19 +17,18 @@ export class ChangePin extends Component {
   onSubmit(e) {
       e.preventDefault();
       if (this.state.newpin == this.state.confPin) { 
-          this.props.onSubmit(this.state.oldpin, this.state.confPin);
+          this.props.onPinSubmit(this.state.oldpin, this.state.confPin);
         }
   }
 
   render() {
     return (
       <div className="row justify-content-center mt-3">
-      <div className="card innner-cards mt-3 bg-info">
+        <div className="card innner-cards mt-3 bg-info">
+          <div className="card-title d-flex justify-content-between mb-0 pb-0"><h4 className="ml-2 mt-2">Change pin:</h4><Link to='/' className="mr-2 mt-2 btn btn-warning">Back</Link></div>
+          <div><h3 className="bg-light text-center text-success">{this.props.pinMsg}</h3></div>
         <form onSubmit={this.onSubmit} className="p-2">
           <div>
-            <label>
-              <h4>Change Pin:</h4>
-            </label>
             <input
               type="password"
               placeholder="Enter the old pin"
