@@ -32,3 +32,8 @@ body {
 .uiCards:hover .link-text{
   color: white;
 }
+
+.innner-cards{
+  width: 50%;
+  height: 100%;
+}

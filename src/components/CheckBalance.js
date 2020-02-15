@@ -11,21 +11,18 @@ export class CheckBalance extends Component {
 
   render() {
     return (
-      <div className="card mt-3 bg-info">
-        <form>
+      <div className="row justify-content-center mt-3">
+      <div className="card innner-cards mt-3 bg-info">
+        <div className="p-2">
           <div>
-            <label>
+            <div>
               <h4>Your Account Balance:</h4>
-            </label>
-            <input
-              type="number"
-              disabled
-              className="form-control"
-              value={this.state.balance}
-            />
+            </div>
+              <div><h1 className="text-white font-weight-bolder text-center">$ {this.props.accBalance}</h1></div>
           </div>
-        </form>
-      </div>
+        </div>
+        </div>
+        </div>
     );
   }
 }

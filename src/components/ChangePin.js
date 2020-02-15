@@ -21,8 +21,9 @@ export class ChangePin extends Component {
 
   render() {
     return (
-      <div className="card mt-3 bg-info">
-        <form onSubmit={this.onSubmit}>
+      <div className="row justify-content-center mt-3">
+      <div className="card innner-cards mt-3 bg-info">
+        <form onSubmit={this.onSubmit} className="p-2">
           <div>
             <label>
               <h4>Change Pin:</h4>
@@ -30,7 +31,7 @@ export class ChangePin extends Component {
             <input
               type="password"
               placeholder="Enter the old pin"
-              className="form-control"
+              className="form-control my-1"
               onChange={e => {
                 this.setState({ oldpin: e.target.value });
               }}
@@ -38,7 +39,7 @@ export class ChangePin extends Component {
             <input
               type="password"
               placeholder="Enter the new pin"
-              className="form-control"
+              className="form-control my-1"
               onChange={e => {
                 this.setState({ newpin: e.target.value });
               }}
@@ -46,7 +47,7 @@ export class ChangePin extends Component {
             <input
               type="password"
               placeholder="confirm new pin"
-              className="form-control"
+              className="form-control my-1"
               onChange={e => {
                 this.setState({ confPin: e.target.value });
               }}
@@ -58,7 +59,8 @@ export class ChangePin extends Component {
             className="btn btn-warning mt-1"
           />
         </form>
-      </div>
+        </div>
+        </div>
     );
   }
 }

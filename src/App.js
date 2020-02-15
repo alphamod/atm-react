@@ -3,7 +3,7 @@ import axios from "axios";
 import './App.css';
 import LoginComponent from './components/LoginComponent';
 import UiComponent from './components/UiComponent';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
 import Withdraw from './components/withdraw';
 import ChangePin from './components/ChangePin';
 import Deposit from './components/Deposit';
@@ -19,13 +19,12 @@ class App extends React.Component {
       userName: "",
       cardNumber: "",
       balance: "",
-      withdrawAmount: "",
-      withdrawError:""
+      withdrawError: "",
+      depositMsg:"",
     }
-    this.cardLogin = this.cardLogin.bind(this);
   }
   // login method
-  cardLogin(cardNumber, pinNumber) {
+  cardLogin = (cardNumber, pinNumber)=> {
     // axios api to validate card
     axios.post('http://localhost:4000/validate', { cardNumber, pinNumber })
       .then(response => {
@@ -53,14 +52,14 @@ class App extends React.Component {
   }
 // withdraw method
   onWithdraw = (withdrawArg) => {
-    this.setState({
-      withdrawAmount: withdrawArg
-    });
-    alert(this.state.withdrawAmount)
     axios.post('http://localhost:4000/withdraw', { withdrawAmount: withdrawArg, cardNumber: this.state.cardNumber })
       .then(response => {
         console.log(response);
         console.log(response.data);
+        if (response.statusText == "Balance updated") {
+          alert("success");
+          window.location.href = '/';
+        }
       })
       .catch(error => {
         console.log(`error inside withdraw catch`);
@@ -73,6 +72,11 @@ class App extends React.Component {
         }
       
       });
+  }
+
+// Deposit method
+  onDeposit = (depositArg) => {
+    
   }
 
   render() {
@@ -88,15 +92,14 @@ class App extends React.Component {
       );
     } else if (this.state.isLogged === "Logged") {
       return (
-
-        <div className="container-fluid">
+        <div className="container-fluid p-0">
           <BrowserRouter>
             <NavBar onLogout={this.onLogout} userName={this.state.userName} />
             <div className="container">
               <Switch>
                 <Route path="/" exact component={UiComponent} />
                 <Route path="/withdraw" render={() => (<Withdraw onWithdraw={this.onWithdraw} withdrawError={this.state.withdrawError} />)} />
-                <Route path="/deposit" component={Deposit} />
+                <Route path="/deposit" render={() => (<Deposit onDeposit={this.onDeposit} depositMsg={this.state.depositMsg} />)} />
                 <Route path="/checkBalance" component={CheckBalance} />
                 <Route path="/changePin" component={ChangePin} />
               </Switch>

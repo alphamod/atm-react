@@ -13,7 +13,8 @@ export class NavBar extends Component {
                     <li className="nav-item">
                         <Link to="/" className="navbar-brand nav-link">Main Menu</Link>
                     </li>
-                    </ul>
+                </ul>
+                <h3 className="text-primary justify-content-center font-weight-bolder text-center">ATM APP</h3>
                     <ul className="nav justify-content-end mt-3">
                     <li className="nav-item">
                         <p className="text-primary nav-link">Hello, <span>{this.props.userName}</span></p>

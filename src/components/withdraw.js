@@ -22,9 +22,10 @@ export class Withdraw extends Component {
 
   render() {
     return (
-      <div className="card mt-3 bg-info">
+      <div className="row justify-content-center mt-3">
+      <div className="card innner-cards mt-3 bg-info">
         <h3 className="text-danger text-center">{this.props.withdrawError}</h3>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} className="p-2">
           <div>
             <label>
               <h4>Enter Withdraw Amount:</h4>
@@ -42,6 +43,7 @@ export class Withdraw extends Component {
             className="btn btn-warning mt-1"
           />
         </form>
+        </div>
         </div>
     );
   }

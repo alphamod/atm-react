@@ -22,8 +22,9 @@ export class Deposit extends Component {
 
   render() {
     return (
-      <div className="card mt-3 bg-info">
-        <form onSubmit={this.onSubmit}>
+      <div className="row justify-content-center mt-3">
+      <div className="card innner-cards mt-3 bg-info">
+        <form onSubmit={this.onSubmit} className="p-2">
           <div>
             <label>
               <h4>Enter the Deposit Amount:</h4>
@@ -41,7 +42,8 @@ export class Deposit extends Component {
             className="btn btn-warning mt-1"
           />
         </form>
-      </div>
+        </div>
+        </div>
     );
   }
 }
